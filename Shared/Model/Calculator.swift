@@ -60,8 +60,7 @@ final class Calculator : ObservableObject
     
     public func evaluateCommand()-> Symbol{
         
-        let result = evaluateCommand(command: rawCommand)
-        
+        let result: Symbol = self.evaluateCommand(command: self.rawCommand)
         return result
     }
     
@@ -269,6 +268,7 @@ final class Calculator : ObservableObject
             if(nCommand[i].display == "("){
                 let endIndex = getParEndIndex(command: nCommand, startIndex: i)
                 let startIndex = i
+                
                 
                 let pCommand: [Symbol] = Array(nCommand[(startIndex+1)...(endIndex-1)])
                 
