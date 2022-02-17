@@ -9,15 +9,17 @@ import SwiftUI
 
 struct ContentView: View {
     
-    @EnvironmentObject var calc:Calculator
+    @EnvironmentObject private var calc:Calculator
     
     var body: some View {
         VStack{
             
             CalculatorDisplay()
                 .environmentObject(calc)
+            Divider()
             CalculatorButtons()
                 .environmentObject(calc)
+                .scaledToFit()
         }
     }
         
@@ -25,6 +27,9 @@ struct ContentView: View {
 
 struct ContentView_Previews: PreviewProvider {
     static var previews: some View {
+        let calc: Calculator = Calculator()
         ContentView()
+            .environmentObject(calc)
+.previewInterfaceOrientation(.portrait)
     }
 }

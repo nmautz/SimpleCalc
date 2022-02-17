@@ -9,16 +9,19 @@ import SwiftUI
 
 struct CalculatorDisplay: View {
     
-    @EnvironmentObject var calc:Calculator
+    @EnvironmentObject private var calc:Calculator
+    
     
     var body: some View {
         Text(calc.textCommand)
-        Divider()
+    
     }
 }
 
 struct CalculatorDisplay_Previews: PreviewProvider {
     static var previews: some View {
+        let calc: Calculator = Calculator()
         CalculatorDisplay()
+            .environmentObject(calc)
     }
 }

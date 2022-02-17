@@ -62,6 +62,10 @@ struct CalculatorButtons: View {
 
 struct CalculatorButtons_Previews: PreviewProvider {
     static var previews: some View {
+        
+        let calc: Calculator = Calculator()
+        
         CalculatorButtons()
+            .environmentObject(calc)
     }
 }
