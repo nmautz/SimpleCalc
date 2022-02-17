@@ -55,6 +55,13 @@ struct CalculatorButtons: View {
                     .environmentObject(calc)
                 CalculatorButton(symbol: Symbol(display: "=", type: "action"))
             }
+            HStack{
+                CalculatorButton(symbol: Symbol(display: "(", type: "parentheses"))
+                    .environmentObject(calc)
+                CalculatorButton(symbol: Symbol(display: ")", type: "parentheses"))
+                    .environmentObject(calc)
+
+            }
             
         }
     }
