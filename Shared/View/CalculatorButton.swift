@@ -35,6 +35,7 @@ struct CalculatorButton: View {
                 .scaledToFill()
                 .frame(minWidth: 50, idealWidth: widthMult*100, maxWidth: widthMult*200, minHeight: 50, idealHeight: heightMult*100, maxHeight: heightMult*200)
                 .background(Color(hue: 1.0, saturation: 0.021, brightness: 0.894))
+                .cornerRadius(35)
                 
         }
         
@@ -46,7 +47,7 @@ struct CalculatorButton_Previews: PreviewProvider {
         let calc: Calculator = Calculator()
         CalculatorButton(symbol: Symbol(display: "5", type: "value"), widthMult: 1)
             .environmentObject(calc)
-.previewInterfaceOrientation(.landscapeLeft)
+.previewInterfaceOrientation(.portrait)
     }
     
 }
