@@ -17,6 +17,12 @@ struct Symbol{
 }
 
 
+struct SymbolRange{
+    var values: [Symbol]
+    var start: Int
+    var end: Int
+}
+
 
 
 
@@ -34,7 +40,8 @@ final class Calculator : ObservableObject
                 rawCommand = []
             }
             if(symbol.display == "="){
-                evaluateCommand()
+                rawCommand = [evaluateCommand()]
+                textCommand = getTextCommand()
             }
         }else {
             rawCommand.append(symbol)
@@ -71,12 +78,89 @@ final class Calculator : ObservableObject
         
         var nCommand = command
         
-        nCommand = parenthesesCommand(command: nCommand)
-
+        nCommand = combineValueSymbols(command: nCommand)
+        nCommand = evaluateParentheses(command: nCommand)
+        nCommand = evaluateExponets(command: nCommand)
+        nCommand = evaluateBasicOps(command: nCommand)
         
-        return Symbol(display: "Replace", type: "Me")
+        return nCommand[0]
     }
     
+    
+    private func combineValueSymbols(command: [Symbol]) -> [Symbol]{
+        
+        for i in command.startIndex...command.endIndex-1 {
+            
+            if command[i].type == "value"{
+                
+                if !(i+1 > command.endIndex-1){
+                    if command[i+1].type == "value"{
+                        let start = i
+                        var values: [Symbol] = []
+                        var end = -1
+                        values.append(command[i])
+                        for j in i+1...command.endIndex-1{
+                            
+                            if command[j].type == "value"{
+                                values.append(command[j])
+                            }else{
+                                end = j-1
+                                break
+                                
+                            }
+                            
+                            
+                        }
+                        if end == -1{
+                            end = command.endIndex-1
+                        }
+                        
+                        var result = doCombine(values: values)
+                        
+                        var nCommand = command
+                        nCommand.replaceSubrange(start...end, with: [result])
+                        
+                        return combineValueSymbols(command: nCommand)
+                        
+                        
+                        
+                        
+                        
+                    }
+                }
+                
+            }
+            
+            
+        }
+        
+        
+        return command
+    }
+    private func doCombine(values: [Symbol]) -> Symbol{
+        
+        //TODO
+        return Symbol(display: "TMP", type: "TMP")
+    }
+    
+    
+    private func evaluateBasicOps(command: [Symbol]) -> [Symbol]
+    {
+        
+        //TODO
+        
+        return command
+    }
+    
+    
+    
+    private func evaluateExponets(command: [Symbol])->[Symbol]{
+        
+        
+        //TODO
+        
+        return command
+    }
     
     
     
@@ -85,7 +169,7 @@ final class Calculator : ObservableObject
         
         var pCount = 1
         
-        for i in startIndex+1...command.endIndex{
+        for i in startIndex+1...command.endIndex-1{
             
             if command[i].display == "(" {
                 pCount += 1
@@ -109,12 +193,12 @@ final class Calculator : ObservableObject
     
     
     //Returns command free of ()
-    private func parenthesesCommand(command: [Symbol]) -> [Symbol]{
+    private func evaluateParentheses(command: [Symbol]) -> [Symbol]{
         
         var nCommand = command
         
         
-        for i in nCommand.startIndex...nCommand.endIndex {
+        for i in nCommand.startIndex...nCommand.endIndex-1 {
             
             if(nCommand[i].display == "("){
                 let endIndex = getParEndIndex(command: nCommand, startIndex: i)
