@@ -57,14 +57,11 @@ final class Calculator : ObservableObject
     }
     
     
-    public func evaluateCommand()->String{
+    public func evaluateCommand()-> Symbol{
         
+        let result = evaluateCommand(command: rawCommand)
         
-        var expression = evaluateCommand(command: rawCommand)
-        
-        textCommand = getTextCommand()
-        
-        return textCommand
+        return result
     }
     
     
@@ -72,64 +69,76 @@ final class Calculator : ObservableObject
     
     private func evaluateCommand(command: [Symbol])->Symbol{
         
+        var nCommand = command
         
+        nCommand = parenthesesCommand(command: nCommand)
 
-    
         
         return Symbol(display: "Replace", type: "Me")
     }
     
     
-    private func parenthesesCommand(pCommand: [Symbol]) -> [Symbol]{
+    
+    
+    private func getParEndIndex(command: [Symbol], startIndex: Int) -> Int
+    {
         
-        var nCommand: [Symbol] = pCommand
+        var pCount = 1
         
-        for i in 0...pCommand.endIndex {
+        for i in startIndex+1...command.endIndex{
             
-            if pCommand[i].display == "(" {
-                var simplified = parenthesesCommand(pCommand: nCommand, pStartIndex: i)
+            if command[i].display == "(" {
+                pCount += 1
+            }else if command[i].display == ")"{
+                pCount -= 1
+            }
+            
+            if(pCount == 0){
+                
+                return i
+            }
+            
+            
+        }
+        
+        
+        
+        return -1
+    }
+    
+    
+    
+    //Returns command free of ()
+    private func parenthesesCommand(command: [Symbol]) -> [Symbol]{
+        
+        var nCommand = command
+        
+        
+        for i in nCommand.startIndex...nCommand.endIndex {
+            
+            if(nCommand[i].display == "("){
+                let endIndex = getParEndIndex(command: nCommand, startIndex: i)
+                let startIndex = i
+                
+                let pCommand: [Symbol] = Array(nCommand[(startIndex+1)...(endIndex-1)])
+                
+                let simplified = evaluateCommand(command: pCommand)
+                
+                nCommand.replaceSubrange(startIndex...endIndex, with: [simplified])
+                
+                return nCommand
                 
             }
-            
+    
             
         }
         
-        return nCommand
+
+        return command
         
         
     }
-    
-    private func parenthesesCommand(pCommand: [Symbol], pStartIndex: Int)->Symbol
-    {
-        var pCount = 1
-        var buffer: [Symbol] = []
-        
-        for i in pStartIndex...pCommand.endIndex{
-            if pCommand[i].display == "(" {
-                pCount+=1
-            }else if pCommand[i].display == ")" {
-                pCount -= 1
-            }else{
-                buffer.append(pCommand[i])
-            }
-            
-            if pCount == 0 {
-                return evaluateCommand(command: buffer)
-            }
-            
-            
-            
-            
-        }
-        return Symbol(display: "ERROR", type: "ERROR")
-        
-    }
-    
-    
-    
-    
-    
-    
+
     
     
     
