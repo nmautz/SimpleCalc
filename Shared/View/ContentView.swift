@@ -12,14 +12,15 @@ struct ContentView: View {
     @EnvironmentObject private var calc:Calculator
     
     var body: some View {
-        VStack{
+        VStack(){
+            Divider().frame(height:20)
             CalculatorDisplay()
                 .environmentObject(calc)
                 .scaledToFit()
             Divider().frame(height:20)
+            Spacer()
             CalculatorButtons()
                 .environmentObject(calc)
-                .scaledToFit()
         }
     }
         

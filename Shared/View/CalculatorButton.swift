@@ -33,7 +33,7 @@ struct CalculatorButton: View {
                 .font(.title)
                 .foregroundColor(/*@START_MENU_TOKEN@*/.blue/*@END_MENU_TOKEN@*/)
                 .scaledToFill()
-                .frame(minWidth: 50, idealWidth: 100, maxWidth: 200, minHeight: 50, idealHeight: 100, maxHeight: 200)
+                .frame(minWidth: 50, idealWidth: widthMult*100, maxWidth: widthMult*200, minHeight: 50, idealHeight: heightMult*100, maxHeight: heightMult*200)
                 .background(Color(hue: 1.0, saturation: 0.021, brightness: 0.894))
                 
         }

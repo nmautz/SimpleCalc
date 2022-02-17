@@ -13,7 +13,7 @@ struct CalculatorDisplay: View {
     
     
     var body: some View {
-        Text(calc.textCommand)
+        Text(" " + calc.textCommand)
     
     }
 }

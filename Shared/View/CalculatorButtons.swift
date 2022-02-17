@@ -76,7 +76,7 @@ struct CalculatorButtons: View {
             }
 
             HStack{
-                CalculatorButton(symbol: Symbol(display: "0", type: "value", value: 0), widthMult: 2.1)
+                CalculatorButton(symbol: Symbol(display: "0", type: "value", value: 0), widthMult: 8)
                     .environmentObject(calc)
                 
                 CalculatorButton(symbol: Symbol(display: ".", type: "value"))
@@ -98,6 +98,6 @@ struct CalculatorButtons_Previews: PreviewProvider {
         
         CalculatorButtons()
             .environmentObject(calc)
-.previewInterfaceOrientation(.landscapeLeft)
+.previewInterfaceOrientation(.portrait)
     }
 }
