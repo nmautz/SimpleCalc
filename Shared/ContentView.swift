@@ -13,6 +13,9 @@ struct ContentView: View {
     
     var body: some View {
         VStack{
+            
+            CalculatorDisplay()
+                .environmentObject(calc)
             CalculatorButtons()
                 .environmentObject(calc)
         }

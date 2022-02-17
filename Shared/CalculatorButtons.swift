@@ -16,9 +16,6 @@ struct CalculatorButtons: View {
         
         VStack{
             
-            Text(calc.textCommand)
-                .font(.title)
-            Divider()
             HStack{
                 CalculatorButton(symbol: Symbol(display: "1", type: "value"))
                     .environmentObject(calc)

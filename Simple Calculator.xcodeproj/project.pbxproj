@@ -23,6 +23,8 @@
 		C94AFA1D27BDDF41005E4067 /* CalculatorButtons.swift in Sources */ = {isa = PBXBuildFile; fileRef = C94AFA1B27BDDF41005E4067 /* CalculatorButtons.swift */; };
 		C94AFA1F27BE0BE2005E4067 /* CalculatorButton.swift in Sources */ = {isa = PBXBuildFile; fileRef = C94AFA1E27BE0BE2005E4067 /* CalculatorButton.swift */; };
 		C94AFA2027BE0BE2005E4067 /* CalculatorButton.swift in Sources */ = {isa = PBXBuildFile; fileRef = C94AFA1E27BE0BE2005E4067 /* CalculatorButton.swift */; };
+		C94AFA2227BE23D7005E4067 /* CalculatorDisplay.swift in Sources */ = {isa = PBXBuildFile; fileRef = C94AFA2127BE23D7005E4067 /* CalculatorDisplay.swift */; };
+		C94AFA2327BE23D7005E4067 /* CalculatorDisplay.swift in Sources */ = {isa = PBXBuildFile; fileRef = C94AFA2127BE23D7005E4067 /* CalculatorDisplay.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -58,6 +60,7 @@
 		C94AFA1827BDDE9D005E4067 /* Calculator.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Calculator.swift; sourceTree = "<group>"; };
 		C94AFA1B27BDDF41005E4067 /* CalculatorButtons.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CalculatorButtons.swift; sourceTree = "<group>"; };
 		C94AFA1E27BE0BE2005E4067 /* CalculatorButton.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CalculatorButton.swift; sourceTree = "<group>"; };
+		C94AFA2127BE23D7005E4067 /* CalculatorDisplay.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CalculatorDisplay.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -110,6 +113,7 @@
 				C94AF9DD27BDDE8A005E4067 /* ContentView.swift */,
 				C94AF9DE27BDDE8A005E4067 /* Assets.xcassets */,
 				C94AFA1827BDDE9D005E4067 /* Calculator.swift */,
+				C94AFA2127BE23D7005E4067 /* CalculatorDisplay.swift */,
 				C94AFA1B27BDDF41005E4067 /* CalculatorButtons.swift */,
 				C94AFA1E27BE0BE2005E4067 /* CalculatorButton.swift */,
 			);
@@ -313,6 +317,7 @@
 			files = (
 				C94AFA0627BDDE8A005E4067 /* ContentView.swift in Sources */,
 				C94AFA0427BDDE8A005E4067 /* Simple_CalculatorApp.swift in Sources */,
+				C94AFA2227BE23D7005E4067 /* CalculatorDisplay.swift in Sources */,
 				C94AFA1927BDDE9E005E4067 /* Calculator.swift in Sources */,
 				C94AFA1C27BDDF41005E4067 /* CalculatorButtons.swift in Sources */,
 				C94AFA1F27BE0BE2005E4067 /* CalculatorButton.swift in Sources */,
@@ -325,6 +330,7 @@
 			files = (
 				C94AFA0727BDDE8A005E4067 /* ContentView.swift in Sources */,
 				C94AFA0527BDDE8A005E4067 /* Simple_CalculatorApp.swift in Sources */,
+				C94AFA2327BE23D7005E4067 /* CalculatorDisplay.swift in Sources */,
 				C94AFA1A27BDDE9E005E4067 /* Calculator.swift in Sources */,
 				C94AFA1D27BDDF41005E4067 /* CalculatorButtons.swift in Sources */,
 				C94AFA2027BE0BE2005E4067 /* CalculatorButton.swift in Sources */,
