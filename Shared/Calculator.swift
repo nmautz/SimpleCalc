@@ -17,6 +17,9 @@ struct Symbol{
 }
 
 
+
+
+
 final class Calculator : ObservableObject
 {    
     private var rawCommand: [Symbol] = []
@@ -29,6 +32,9 @@ final class Calculator : ObservableObject
         {
             if(symbol.display == "CLR"){
                 rawCommand = []
+            }
+            if(symbol.display == "="){
+                evaluateCommand()
             }
         }else {
             rawCommand.append(symbol)
@@ -50,6 +56,27 @@ final class Calculator : ObservableObject
         return str
     }
     
+    
+    public func evaluateCommand()->String{
+        
+        
+        var expression = evaluateCommand(command: rawCommand)
+        
+        textCommand = getTextCommand()
+        
+        return textCommand
+    }
+    
+    
+    
+    
+    private func evaluateCommand(command: [Symbol])->[Symbol]{
+        
+        
+        
+        
+        return [Symbol(display: "Replace", type: "Me")]
+    }
     
     
     
