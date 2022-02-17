@@ -70,13 +70,63 @@ final class Calculator : ObservableObject
     
     
     
-    private func evaluateCommand(command: [Symbol])->[Symbol]{
+    private func evaluateCommand(command: [Symbol])->Symbol{
         
         
+
+    
         
-        
-        return [Symbol(display: "Replace", type: "Me")]
+        return Symbol(display: "Replace", type: "Me")
     }
+    
+    
+    private func parenthesesCommand(pCommand: [Symbol]) -> [Symbol]{
+        
+        var nCommand: [Symbol] = pCommand
+        
+        for i in 0...pCommand.endIndex {
+            
+            if pCommand[i].display == "(" {
+                var simplified = parenthesesCommand(pCommand: nCommand, pStartIndex: i)
+                
+            }
+            
+            
+        }
+        
+        return nCommand
+        
+        
+    }
+    
+    private func parenthesesCommand(pCommand: [Symbol], pStartIndex: Int)->Symbol
+    {
+        var pCount = 1
+        var buffer: [Symbol] = []
+        
+        for i in pStartIndex...pCommand.endIndex{
+            if pCommand[i].display == "(" {
+                pCount+=1
+            }else if pCommand[i].display == ")" {
+                pCount -= 1
+            }else{
+                buffer.append(pCommand[i])
+            }
+            
+            if pCount == 0 {
+                return evaluateCommand(command: buffer)
+            }
+            
+            
+            
+            
+        }
+        return Symbol(display: "ERROR", type: "ERROR")
+        
+    }
+    
+    
+    
     
     
     
