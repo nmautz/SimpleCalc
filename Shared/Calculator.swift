@@ -25,7 +25,14 @@ final class Calculator : ObservableObject
     
     public func addCommandSymbol(symbol:Symbol){
         
-        rawCommand.append(symbol)
+        if(symbol.type == "action")
+        {
+            if(symbol.display == "CLR"){
+                rawCommand = []
+            }
+        }else {
+            rawCommand.append(symbol)
+        }
         textCommand = getTextCommand()
         
     }
