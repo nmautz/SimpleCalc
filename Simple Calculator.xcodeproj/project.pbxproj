@@ -112,14 +112,10 @@
 		C94AF9DB27BDDE8A005E4067 /* Shared */ = {
 			isa = PBXGroup;
 			children = (
+				C94AF9DC27BDDE8A005E4067 /* Simple_CalculatorApp.swift */,
 				C94AFA2927BEAA74005E4067 /* View */,
 				C94AFA2727BEAA54005E4067 /* Model */,
-				C94AF9DC27BDDE8A005E4067 /* Simple_CalculatorApp.swift */,
-				C94AF9DD27BDDE8A005E4067 /* ContentView.swift */,
 				C94AF9DE27BDDE8A005E4067 /* Assets.xcassets */,
-				C94AFA1827BDDE9D005E4067 /* Calculator.swift */,
-				C94AFA2427BE340A005E4067 /* Expression.swift */,
-				C94AFA1E27BE0BE2005E4067 /* CalculatorButton.swift */,
 			);
 			path = Shared;
 			sourceTree = "<group>";
@@ -164,6 +160,8 @@
 		C94AFA2727BEAA54005E4067 /* Model */ = {
 			isa = PBXGroup;
 			children = (
+				C94AFA1827BDDE9D005E4067 /* Calculator.swift */,
+				C94AFA2427BE340A005E4067 /* Expression.swift */,
 			);
 			path = Model;
 			sourceTree = "<group>";
@@ -173,6 +171,8 @@
 			children = (
 				C94AFA2127BE23D7005E4067 /* CalculatorDisplay.swift */,
 				C94AFA1B27BDDF41005E4067 /* CalculatorButtons.swift */,
+				C94AFA1E27BE0BE2005E4067 /* CalculatorButton.swift */,
+				C94AF9DD27BDDE8A005E4067 /* ContentView.swift */,
 			);
 			path = View;
 			sourceTree = "<group>";
