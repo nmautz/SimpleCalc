@@ -13,7 +13,7 @@ struct Symbol{
     
     var display: String
     var type: String
-    var value: Double = -1
+    var value: Double? = nil
     
 }
 
@@ -148,11 +148,17 @@ final class Calculator : ObservableObject
         
         for i in values.startIndex..<values.endIndex{
             
-            
-            
-            total += (values[i].value * pow(10, Double((decIndex-1)-i)))
+            if i != decIndex{
+                
+                if i < decIndex{
+                    total += (values[i].value! * pow(10, Double((decIndex-1)-i)))
+                }else{
+                    total += (values[i].value! * pow(10, Double((decIndex)-i)))
+                }
+                
+                
                         
-            
+            }
         }
         
         
@@ -188,8 +194,8 @@ final class Calculator : ObservableObject
         }
         
         //Get left and right values
-        let v1: Double = command[opIndex-1].value
-        let v2: Double = command[opIndex+1].value
+        let v1: Double = command[opIndex-1].value!
+        let v2: Double = command[opIndex+1].value!
         let op: String = command[opIndex].display
         var result: Double
         
