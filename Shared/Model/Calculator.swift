@@ -186,7 +186,7 @@ final class Calculator : ObservableObject
                 break
             }else if opIndex == -1{
                 
-                if command[i].display == "+" || command[i].display == "/"
+                if command[i].display == "+" || command[i].display == "-"
                 {
                     opIndex = i
                 }
