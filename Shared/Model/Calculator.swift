@@ -214,7 +214,11 @@ final class Calculator : ObservableObject
         
         let resultSymbol:Symbol = Symbol(display: String(result), type: "value", value: result)
         
-        return [resultSymbol]
+        var nCommand = command
+        
+        nCommand.replaceSubrange(opIndex-1...opIndex+1, with: [resultSymbol])
+        return evaluateBasicOps(command: nCommand)
+        
     }
     
     
