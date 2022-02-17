@@ -8,10 +8,16 @@
 import SwiftUI
 
 struct ContentView: View {
+    
+    @EnvironmentObject var calc:Calculator
+    
     var body: some View {
-        Text("Hello, world!")
-            .padding()
+        VStack{
+            CalculatorButtons()
+                .environmentObject(calc)
+        }
     }
+        
 }
 
 struct ContentView_Previews: PreviewProvider {
