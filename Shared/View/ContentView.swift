@@ -17,11 +17,14 @@ struct ContentView: View {
             CalculatorDisplay()
                 .environmentObject(calc)
                 .scaledToFit()
+                .padding(.all, 20)
             Divider().frame(height:20)
             Spacer()
             CalculatorButtons()
                 .environmentObject(calc)
+                .padding(.all, 20)
         }
+
     }
         
 }
