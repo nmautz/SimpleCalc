@@ -28,30 +28,30 @@ struct CalculatorButtons: View {
             }
             
             HStack{
-                CalculatorButton(symbol: Symbol(display: "1", type: "value"))
+                CalculatorButton(symbol: Symbol(display: "1", type: "value", value: 1))
                     .environmentObject(calc)
-                CalculatorButton(symbol: Symbol(display: "2", type: "value"))
+                CalculatorButton(symbol: Symbol(display: "2", type: "value", value: 2))
                     .environmentObject(calc)
-                CalculatorButton(symbol: Symbol(display: "3", type: "value"))
+                CalculatorButton(symbol: Symbol(display: "3", type: "value", value: 3))
                     .environmentObject(calc)
                 CalculatorButton(symbol: Symbol(display: "+", type: "operator"))
                     .environmentObject(calc)
             }
             HStack{
-                CalculatorButton(symbol: Symbol(display: "4", type: "value"))
+                CalculatorButton(symbol: Symbol(display: "4", type: "value", value: 4))
                     .environmentObject(calc)
-                CalculatorButton(symbol: Symbol(display: "5", type: "value"))
+                CalculatorButton(symbol: Symbol(display: "5", type: "value", value: 5))
                     .environmentObject(calc)
-                CalculatorButton(symbol: Symbol(display: "6", type: "value"))
+                CalculatorButton(symbol: Symbol(display: "6", type: "value", value: 6))
                     .environmentObject(calc)
                 CalculatorButton(symbol: Symbol(display: "-", type: "operator"))
             }
             HStack{
-                CalculatorButton(symbol: Symbol(display: "7", type: "value"))
+                CalculatorButton(symbol: Symbol(display: "7", type: "value", value: 7))
                     .environmentObject(calc)
-                CalculatorButton(symbol: Symbol(display: "8", type: "value"))
+                CalculatorButton(symbol: Symbol(display: "8", type: "value", value: 8))
                     .environmentObject(calc)
-                CalculatorButton(symbol: Symbol(display: "9", type: "value"))
+                CalculatorButton(symbol: Symbol(display: "9", type: "value", value: 9))
                     .environmentObject(calc)
                 CalculatorButton(symbol: Symbol(display: "=", type: "action"))
             }

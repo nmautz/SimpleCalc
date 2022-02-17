@@ -13,14 +13,8 @@ struct Symbol{
     
     var display: String
     var type: String
+    var value: Double = -1
     
-}
-
-
-struct SymbolRange{
-    var values: [Symbol]
-    var start: Int
-    var end: Int
 }
 
 
@@ -115,7 +109,7 @@ final class Calculator : ObservableObject
                             end = command.endIndex-1
                         }
                         
-                        var result = doCombine(values: values)
+                        let result = doCombine(values: values)
                         
                         var nCommand = command
                         nCommand.replaceSubrange(start...end, with: [result])
@@ -139,17 +133,83 @@ final class Calculator : ObservableObject
     }
     private func doCombine(values: [Symbol]) -> Symbol{
         
-        //TODO
-        return Symbol(display: "TMP", type: "TMP")
+        
+        var total: Double = 0.0
+        
+        var decIndex: Int = values.endIndex
+        for i in values.startIndex ..< values.endIndex
+        {
+            if values[i].display == "."{
+                decIndex = i
+                break
+            }
+        }
+        
+        
+        for i in values.startIndex..<values.endIndex{
+            
+            
+            
+            total += (values[i].value * pow(10, Double((decIndex-1)-i)))
+                        
+            
+        }
+        
+        
+        return Symbol(display: String(total), type: "value", value: total)
     }
-    
+       
     
     private func evaluateBasicOps(command: [Symbol]) -> [Symbol]
     {
         
-        //TODO
         
-        return command
+        if command.count <= 1 {
+            return command
+        }
+        
+        //Get operator
+        
+        var opIndex = -1
+        
+        for i in command.startIndex..<command.endIndex{
+            
+            if command[i].display == "/" || command[i].display == "*"
+            {
+                opIndex = i
+                break
+            }else if opIndex == -1{
+                
+                if command[i].display == "+" || command[i].display == "/"
+                {
+                    opIndex = i
+                }
+            }
+        }
+        
+        //Get left and right values
+        let v1: Double = command[opIndex-1].value
+        let v2: Double = command[opIndex+1].value
+        let op: String = command[opIndex].display
+        var result: Double
+        
+        switch op {
+        case "*":
+            result = v1 * v2
+        case "/":
+            result = v1 / v2
+        case "+":
+            result = v1 + v2
+        case "-":
+            result = v1 - v2
+        default:
+            result = 0
+        }
+        
+        
+        let resultSymbol:Symbol = Symbol(display: String(result), type: "value", value: result)
+        
+        return [resultSymbol]
     }
     
     
