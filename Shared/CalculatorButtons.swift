@@ -16,12 +16,25 @@ struct CalculatorButtons: View {
         
         VStack{
             
+            
+            HStack{
+                
+                CalculatorButton(symbol: Symbol(display: "*", type: "operator"))
+                    .environmentObject(calc)
+                CalculatorButton(symbol: Symbol(display: "/", type: "operator"))
+                    .environmentObject(calc)
+                CalculatorButton(symbol: Symbol(display: "CLR", type: "action"))
+                    .environmentObject(calc)
+            }
+            
             HStack{
                 CalculatorButton(symbol: Symbol(display: "1", type: "value"))
                     .environmentObject(calc)
                 CalculatorButton(symbol: Symbol(display: "2", type: "value"))
                     .environmentObject(calc)
                 CalculatorButton(symbol: Symbol(display: "3", type: "value"))
+                    .environmentObject(calc)
+                CalculatorButton(symbol: Symbol(display: "+", type: "operator"))
                     .environmentObject(calc)
             }
             HStack{
@@ -31,6 +44,7 @@ struct CalculatorButtons: View {
                     .environmentObject(calc)
                 CalculatorButton(symbol: Symbol(display: "6", type: "value"))
                     .environmentObject(calc)
+                CalculatorButton(symbol: Symbol(display: "-", type: "operator"))
             }
             HStack{
                 CalculatorButton(symbol: Symbol(display: "7", type: "value"))
@@ -39,7 +53,9 @@ struct CalculatorButtons: View {
                     .environmentObject(calc)
                 CalculatorButton(symbol: Symbol(display: "9", type: "value"))
                     .environmentObject(calc)
+                CalculatorButton(symbol: Symbol(display: "=", type: "action"))
             }
+            
         }
     }
 }
