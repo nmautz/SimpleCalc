@@ -13,10 +13,10 @@ struct ContentView: View {
     
     var body: some View {
         VStack{
-            
             CalculatorDisplay()
                 .environmentObject(calc)
-            Divider()
+                .scaledToFit()
+            Divider().frame(height:20)
             CalculatorButtons()
                 .environmentObject(calc)
                 .scaledToFit()

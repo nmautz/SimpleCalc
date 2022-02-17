@@ -19,6 +19,10 @@ struct CalculatorButton: View {
     @EnvironmentObject var calc:Calculator
     
     
+    var widthMult = 1.0
+    var heightMult = 1.0
+    
+    
     
     var body: some View {
         Button{
@@ -27,10 +31,10 @@ struct CalculatorButton: View {
                        
             Text(symbol.display)
                 .font(.title)
-                .frame(width: UIScreen.screenWidth / 5, height: UIScreen.screenHeight / 10)
                 .foregroundColor(/*@START_MENU_TOKEN@*/.blue/*@END_MENU_TOKEN@*/)
-                .background(/*@START_MENU_TOKEN@*//*@PLACEHOLDER=View@*/Color(hue: 1.0, saturation: 0.021, brightness: 0.894)/*@END_MENU_TOKEN@*/)
-                .scaledToFit()
+                .scaledToFill()
+                .frame(minWidth: 50, idealWidth: 100, maxWidth: 200, minHeight: 50, idealHeight: 100, maxHeight: 200)
+                .background(Color(hue: 1.0, saturation: 0.021, brightness: 0.894))
                 
         }
         
@@ -40,8 +44,9 @@ struct CalculatorButton: View {
 struct CalculatorButton_Previews: PreviewProvider {
     static var previews: some View {
         let calc: Calculator = Calculator()
-        CalculatorButton(symbol: Symbol(display: "5", type: "value"))
+        CalculatorButton(symbol: Symbol(display: "5", type: "value"), widthMult: 1)
             .environmentObject(calc)
+.previewInterfaceOrientation(.landscapeLeft)
     }
     
 }

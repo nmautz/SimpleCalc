@@ -16,6 +16,7 @@ struct Simple_CalculatorApp: App {
         WindowGroup {
             ContentView()
                 .environmentObject(calc)
+            
         }
     }
 }
