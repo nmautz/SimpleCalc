@@ -34,24 +34,30 @@ final class Calculator : ObservableObject
                 rawCommand = []
             }
             if(symbol.display == "="){
-                rawCommand = [evaluateCommand()]
-                textCommand = getTextCommand()
+                
+                if !rawCommand.isEmpty{
+                    rawCommand = [evaluateCommand()]
+                    textCommand = getTextCommand()
+                }
+                
             }
             if(symbol.display == "+/-"){
-                
-                if(rawCommand[rawCommand.endIndex-1].type == "value"){
-                    
-                    
-                    if rawCommand[rawCommand.endIndex-1].display.contains("-"){
+                if !rawCommand.isEmpty{
+                    if(rawCommand[rawCommand.endIndex-1].type == "value"){
                         
-                        rawCommand[rawCommand.endIndex-1].display.removeFirst()
                         
-                    }else{
-                        rawCommand[rawCommand.endIndex-1].display = "-" + rawCommand[rawCommand.endIndex-1].display
+                        if rawCommand[rawCommand.endIndex-1].display.contains("-"){
+                            
+                            rawCommand[rawCommand.endIndex-1].display.removeFirst()
+                            
+                        }else{
+                            rawCommand[rawCommand.endIndex-1].display = "-" + rawCommand[rawCommand.endIndex-1].display
+                        }
+                        
+                        rawCommand[rawCommand.endIndex-1].value! *= -1
                     }
-                    
-                    rawCommand[rawCommand.endIndex-1].value! *= -1
                 }
+
                 
                 
                 
@@ -91,16 +97,86 @@ final class Calculator : ObservableObject
         
         var nCommand = command
         
-        nCommand = combineValueSymbols(command: nCommand)
-        nCommand = evaluateParentheses(command: nCommand)
-        nCommand = evaluateExponets(command: nCommand)
-        nCommand = evaluateBasicOps(command: nCommand)
-        
+        if(checkInput(command: nCommand)){
+            nCommand = combineValueSymbols(command: nCommand)
+            nCommand = evaluateParentheses(command: nCommand)
+            nCommand = evaluateExponets(command: nCommand)
+            nCommand = evaluateBasicOps(command: nCommand)
+        }
+
         return nCommand[0]
     }
     
     
+    
+    
+    private func checkInput(command: [Symbol])->Bool{
+        
+        if command[0].type == "operator" || command[command.endIndex-1].type == "operator" {
+            
+            return false
+            
+        }
+        
+        var pCount = 0
+        
+        for i in command.startIndex..<command.endIndex{
+            
+            if command[i].type == "operator" {
+    
+                if command[i-1].type == "operator" && command[i+1].type == "operator"
+                {
+                    return false
+                }
+
+            }
+            if command[i].display == "(" {
+                pCount += 1
+                if i != command.endIndex-1 {
+                    if command[i+1].display == ")"
+                    {
+                        return false
+                    }
+                }else {
+                    return false
+                }
+                
+                if i != 0{
+                    if command[i-1].type == "value" {
+                        return false
+                    }
+                }
+            }else if command[i].display == ")"
+            {
+                
+                pCount -= 1
+                if i != command.endIndex-1 {
+                    if command[i+1].type == "value"{
+                        return false
+                    }
+                }
+                
+                
+            }
+            
+            
+            
+        }
+        
+        if pCount == 0{
+            return true
+        }
+        return false
+        
+        
+    }
+    
+    
+    
+    
     private func combineValueSymbols(command: [Symbol]) -> [Symbol]{
+        
+
         
         for i in command.startIndex...command.endIndex-1 {
             
