@@ -327,8 +327,28 @@ final class Calculator : ObservableObject
     
     private func evaluateExponets(command: [Symbol])->[Symbol]{
         
+        var nCommand = command
         
-        //TODO
+        for i in 0..<nCommand.endIndex{
+            
+            if nCommand[i].display == "^"{
+                
+                let v1 = nCommand[i-1].value!
+                let v2 = nCommand[i+1].value!
+                
+                let result = pow(v1, v2)
+                
+                nCommand.replaceSubrange(i-1...i+1, with: [Symbol(display: String(result), type: "value", value: result)])
+                
+                return evaluateExponets(command: nCommand)
+                
+                
+                
+            }
+            
+            
+            
+        }
         
         return command
     }
