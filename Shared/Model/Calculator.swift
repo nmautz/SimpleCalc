@@ -43,7 +43,7 @@ final class Calculator : ObservableObject
             }
             if(symbol.display == "+/-"){
                 if !rawCommand.isEmpty{
-                    if(rawCommand[rawCommand.endIndex-1].type == "value"){
+                    if(rawCommand[rawCommand.endIndex-1].type == "value" && rawCommand[rawCommand.endIndex-1].display != "."){
                         
                         
                         if rawCommand[rawCommand.endIndex-1].display.contains("-"){
@@ -162,6 +162,19 @@ final class Calculator : ObservableObject
                     }
                 }
                 
+                
+            }else if command[i].display == "."{
+                
+                if i != 0 {
+                    if command[i-1].display == "."{
+                        return false
+                    }
+                }
+                if i != command.endIndex-1{
+                    if command[i+1].display == "."{
+                        return false
+                    }
+                }
                 
             }
             
