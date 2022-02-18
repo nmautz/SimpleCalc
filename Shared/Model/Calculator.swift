@@ -43,7 +43,13 @@ final class Calculator : ObservableObject
                 
             }
             if(symbol.display == "+/-"){
+                    
                 if !rawCommand.isEmpty{
+                    if checkInput(command: rawCommand)
+                    {
+                        rawCommand = combineValueSymbols(command: rawCommand)
+                        
+                    }
                     if(rawCommand[rawCommand.endIndex-1].type == "value" && rawCommand[rawCommand.endIndex-1].display != "."){
                         
                         
@@ -58,10 +64,6 @@ final class Calculator : ObservableObject
                         rawCommand[rawCommand.endIndex-1].value! *= -1
                     }
                 }
-
-                
-                
-                
                 
             }
         }else {
@@ -225,7 +227,7 @@ final class Calculator : ObservableObject
                             end = command.endIndex-1
                         }
                         
-                        let result = doCombine(values: values)
+                        let result = doCombine(command: values)
                         
                         var nCommand = command
                         nCommand.replaceSubrange(start...end, with: [result])
@@ -247,11 +249,13 @@ final class Calculator : ObservableObject
         
         return command
     }
-    private func doCombine(values: [Symbol]) -> Symbol{
+    private func doCombine(command: [Symbol]) -> Symbol{
         
+        
+        
+        var values = command
         
         var total: Double = 0.0
-        
         var decIndex: Int = values.endIndex
         for i in values.startIndex ..< values.endIndex
         {
@@ -261,10 +265,14 @@ final class Calculator : ObservableObject
             }
         }
         
-        
+        var negative: Bool = false
         for i in values.startIndex..<values.endIndex{
             
             if i != decIndex{
+                if values[i].value! < 0{
+                    negative = true
+                    values[i].value = abs(values[i].value!)
+                }
                 
                 if i < decIndex{
                     total += (values[i].value! * pow(10, Double((decIndex-1)-i)))
@@ -277,6 +285,9 @@ final class Calculator : ObservableObject
             }
         }
         
+        if negative {
+            total *= -1
+        }
         
         return Symbol(display: String(total), type: "value", value: total)
     }
