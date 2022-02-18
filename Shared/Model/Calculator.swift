@@ -37,6 +37,26 @@ final class Calculator : ObservableObject
                 rawCommand = [evaluateCommand()]
                 textCommand = getTextCommand()
             }
+            if(symbol.display == "+/-"){
+                
+                if(rawCommand[rawCommand.endIndex-1].type == "value"){
+                    
+                    
+                    if rawCommand[rawCommand.endIndex-1].display.contains("-"){
+                        
+                        rawCommand[rawCommand.endIndex-1].display.removeFirst()
+                        
+                    }else{
+                        rawCommand[rawCommand.endIndex-1].display = "-" + rawCommand[rawCommand.endIndex-1].display
+                    }
+                    
+                    rawCommand[rawCommand.endIndex-1].value! *= -1
+                }
+                
+                
+                
+                
+            }
         }else {
             rawCommand.append(symbol)
         }
