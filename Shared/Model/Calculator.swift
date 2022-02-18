@@ -102,16 +102,17 @@ final class Calculator : ObservableObject
             nCommand = evaluateParentheses(command: nCommand)
             nCommand = evaluateExponets(command: nCommand)
             nCommand = evaluateBasicOps(command: nCommand)
+            return nCommand[0]
         }
+        return Symbol(display: "ERROR", type: "ERROR")
 
-        return nCommand[0]
+        
     }
     
     
     
     
     private func checkInput(command: [Symbol])->Bool{
-        
         if command[0].type == "operator" || command[command.endIndex-1].type == "operator" {
             
             return false
@@ -121,6 +122,11 @@ final class Calculator : ObservableObject
         var pCount = 0
         
         for i in command.startIndex..<command.endIndex{
+            
+            if command[i].type == "ERROR"
+            {
+                return false
+            }
             
             if command[i].type == "operator" {
     
