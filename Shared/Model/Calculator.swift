@@ -45,11 +45,13 @@ final class Calculator : ObservableObject
             if(symbol.display == "+/-"){
                     
                 if !rawCommand.isEmpty{
-                    if checkInput(command: rawCommand)
-                    {
-                        rawCommand = combineValueSymbols(command: rawCommand)
+
+                    do {
+                        try rawCommand = combineValueSymbols(command: rawCommand)
+                    }catch{
                         
                     }
+                    
                     if(rawCommand[rawCommand.endIndex-1].type == "value" && rawCommand[rawCommand.endIndex-1].display != "."){
                         
                         
@@ -99,159 +101,83 @@ final class Calculator : ObservableObject
     private func evaluateCommand(command: [Symbol])->Symbol{
         
         var nCommand = command
-        
-        if(checkInput(command: nCommand)){
-            nCommand = combineValueSymbols(command: nCommand)
-            nCommand = evaluateParentheses(command: nCommand)
-            nCommand = evaluateExponets(command: nCommand)
-            nCommand = evaluateBasicOps(command: nCommand)
-            return nCommand[0]
+        do {
+            try nCommand = combineValueSymbols(command: nCommand)
+            try nCommand = evaluateParentheses(command: nCommand)
+            try nCommand = evaluateExponets(command: nCommand)
+            try nCommand = evaluateBasicOps(command: nCommand)
+        }catch{
+            return Symbol(display: "ERROR", type: "ERROR")
         }
-        return Symbol(display: "ERROR", type: "ERROR")
+        
+        return nCommand[0]
+
+        
 
         
     }
     
     
-    
-    
-    private func checkInput(command: [Symbol])->Bool{
-                
-        if command[0].type == "operator" || command[command.endIndex-1].type == "operator" {
-            
-            return false
-            
-        }
-        
-        var pCount = 0
-        
-        for i in command.startIndex..<command.endIndex{
-            
-            if command[i].type == "ERROR"
-            {
-                return false
-            }
-            
-            if command[i].type == "operator" {
-    
-                if command[i-1].type != "value" || command[i+1].type != "value"
-                {
-                    return false
-                }
 
-            }
-            if command[i].display == "(" {
-                pCount += 1
-                if i != command.endIndex-1 {
-                    if command[i+1].display == ")"
-                    {
-                        return false
-                    }
-                }else {
-                    return false
-                }
-                
-                if i != 0{
-                    if command[i-1].type == "value" {
-                        return false
-                    }
-                }
-            }else if command[i].display == ")"
-            {
-                
-                pCount -= 1
-                if i != command.endIndex-1 {
-                    if command[i+1].type == "value"{
-                        return false
-                    }
-                }
-                
-                
-            }else if command[i].display == "."{
-                
-                if i != 0 {
-                    if command[i-1].display == "."{
-                        return false
-                    }
-                }
-                if i != command.endIndex-1{
-                    if command[i+1].display == "."{
-                        return false
-                    }
-                }
-                
-            }
-            
-            
-            
-        }
+    private func combineValueSymbols(command: [Symbol]) throws -> [Symbol]{
         
-        if pCount == 0{
-            return true
-        }
-        return false
-        
-        
-    }
-    
-    
-    
-    
-    private func combineValueSymbols(command: [Symbol]) -> [Symbol]{
-        
-
-        
-        for i in command.startIndex...command.endIndex-1 {
-            
-            if command[i].type == "value" || command[i].type == "decimal"{
+        do{
+            for i in command.startIndex...command.endIndex-1 {
                 
-                if !(i+1 > command.endIndex-1){
-                    if command[i+1].type == "value" || command[i+1].type == "decimal"{
-                        let start = i
-                        var values: [Symbol] = []
-                        var end = -1
-                        values.append(command[i])
-                        for j in i+1...command.endIndex-1{
-                            
-                            if command[j].type == "value" || command[j].type == "decimal"{
-                                values.append(command[j])
-                            }else{
-                                end = j-1
-                                break
+                if command[i].type == "value" || command[i].type == "decimal"{
+                    
+                    if !(i+1 > command.endIndex-1){
+                        if command[i+1].type == "value" || command[i+1].type == "decimal"{
+                            let start = i
+                            var values: [Symbol] = []
+                            var end = -1
+                            values.append(command[i])
+                            for j in i+1...command.endIndex-1{
+                                
+                                if command[j].type == "value" || command[j].type == "decimal"{
+                                    values.append(command[j])
+                                }else{
+                                    end = j-1
+                                    break
+                                    
+                                }
+                                
                                 
                             }
+                            if end == -1{
+                                end = command.endIndex-1
+                            }
+                            
+                            let result = try doCombine(command: values)
+                            
+                            var nCommand = command
+                            nCommand.replaceSubrange(start...end, with: [result])
+                            
+                            return try combineValueSymbols(command: nCommand)
+                            
+                            
+                            
                             
                             
                         }
-                        if end == -1{
-                            end = command.endIndex-1
-                        }
-                        
-                        let result = doCombine(command: values)
-                        
-                        var nCommand = command
-                        nCommand.replaceSubrange(start...end, with: [result])
-                        
-                        return combineValueSymbols(command: nCommand)
-                        
-                        
-                        
-                        
-                        
                     }
+                    
                 }
                 
+                
             }
-            
-            
         }
+        
+
         
         
         return command
     }
-    private func doCombine(command: [Symbol]) -> Symbol{
+    private func doCombine(command: [Symbol])throws  -> Symbol{
         
-        
+        enum CombineError: Error {
+            case general
+        }
         
         var values = command
         
@@ -269,6 +195,9 @@ final class Calculator : ObservableObject
         for i in values.startIndex..<values.endIndex{
             
             if i != decIndex{
+                if values[i].value == nil {
+                    throw CombineError.general
+                }
                 if values[i].value! < 0{
                     negative = true
                     values[i].value = abs(values[i].value!)
@@ -293,8 +222,11 @@ final class Calculator : ObservableObject
     }
        
     
-    private func evaluateBasicOps(command: [Symbol]) -> [Symbol]
+    private func evaluateBasicOps(command: [Symbol])throws -> [Symbol]
     {
+        enum BasicOperatorError: Error {
+            case general
+        }
         
         
         if command.count <= 1 {
@@ -318,6 +250,14 @@ final class Calculator : ObservableObject
                     opIndex = i
                 }
             }
+        }
+        
+        if opIndex <= 0 || opIndex >= command.endIndex-1{
+            throw BasicOperatorError.general
+        }
+        
+        if command[opIndex-1].value == nil || command[opIndex+1].value == nil {
+            throw BasicOperatorError.general
         }
         
         //Get left and right values
@@ -345,19 +285,28 @@ final class Calculator : ObservableObject
         var nCommand = command
         
         nCommand.replaceSubrange(opIndex-1...opIndex+1, with: [resultSymbol])
-        return evaluateBasicOps(command: nCommand)
+        return try evaluateBasicOps(command: nCommand)
         
     }
     
     
     
-    private func evaluateExponets(command: [Symbol])->[Symbol]{
+    private func evaluateExponets(command: [Symbol])throws ->[Symbol]{
+        
+        enum ExponentError: Error {
+            case general
+        }
+        
         
         var nCommand = command
         
         for i in 0..<nCommand.endIndex{
             
             if nCommand[i].display == "^"{
+                
+                if nCommand[i-1].value == nil || nCommand[i+1].value == nil{
+                    throw ExponentError.general
+                }
                 
                 let v1 = nCommand[i-1].value!
                 let v2 = nCommand[i+1].value!
@@ -366,7 +315,7 @@ final class Calculator : ObservableObject
                 
                 nCommand.replaceSubrange(i-1...i+1, with: [Symbol(display: String(result), type: "value", value: result)])
                 
-                return evaluateExponets(command: nCommand)
+                return try evaluateExponets(command: nCommand)
                 
                 
                 
@@ -381,10 +330,17 @@ final class Calculator : ObservableObject
     
     
     
-    private func getParEndIndex(command: [Symbol], startIndex: Int) -> Int
+    private func getParEndIndex(command: [Symbol], startIndex: Int)throws -> Int
     {
+        enum HelperError:Error{
+            case general
+        }
         
         var pCount = 1
+        
+        if startIndex+1 > command.endIndex-1 {
+            throw HelperError.general
+        }
         
         for i in startIndex+1...command.endIndex-1{
             
@@ -410,7 +366,13 @@ final class Calculator : ObservableObject
     
     
     //Returns command free of ()
-    private func evaluateParentheses(command: [Symbol]) -> [Symbol]{
+    private func evaluateParentheses(command: [Symbol]) throws -> [Symbol]{
+        
+        
+        
+        enum ParenthesisError: Error {
+            case general
+        }
         
         var nCommand = command
         
@@ -418,10 +380,12 @@ final class Calculator : ObservableObject
         for i in nCommand.startIndex...nCommand.endIndex-1 {
             
             if(nCommand[i].display == "("){
-                let endIndex = getParEndIndex(command: nCommand, startIndex: i)
+                let endIndex = try getParEndIndex(command: nCommand, startIndex: i)
                 let startIndex = i
                 
-                
+                if startIndex+1 > endIndex-1 {
+                    throw ParenthesisError.general
+                }
                 let pCommand: [Symbol] = Array(nCommand[(startIndex+1)...(endIndex-1)])
                 
                 let simplified = evaluateCommand(command: pCommand)
@@ -436,7 +400,7 @@ final class Calculator : ObservableObject
         }
         
 
-        return command
+        return try command
         
         
     }
