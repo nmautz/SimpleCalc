@@ -19,6 +19,8 @@ struct CalculatorButtons: View {
             
             HStack{
 
+                CalculatorButton(symbol: Symbol(display: "^", type: "operator"), widthMult: 0.43)
+                    .environmentObject(calc)
                 CalculatorButton(symbol: Symbol(display: "CLR", type: "action"), widthMult: 2.1)
                     .environmentObject(calc)
 
@@ -73,7 +75,7 @@ struct CalculatorButtons: View {
             }
 
             HStack{
-                CalculatorButton(symbol: Symbol(display: "0", type: "value", value: 0), widthMult: 8)
+                CalculatorButton(symbol: Symbol(display: "0", type: "value", value: 0))
                     .environmentObject(calc)
                 
                 CalculatorButton(symbol: Symbol(display: ".", type: "value"))

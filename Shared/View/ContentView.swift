@@ -34,6 +34,6 @@ struct ContentView_Previews: PreviewProvider {
         let calc: Calculator = Calculator()
         ContentView()
             .environmentObject(calc)
-.previewInterfaceOrientation(.landscapeLeft)
+.previewInterfaceOrientation(.portrait)
     }
 }
