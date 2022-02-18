@@ -27,6 +27,7 @@ final class Calculator : ObservableObject
     @Published var textCommand: String = ""
     
     public func addCommandSymbol(symbol:Symbol){
+               
         
         if(symbol.type == "action")
         {
@@ -113,6 +114,7 @@ final class Calculator : ObservableObject
     
     
     private func checkInput(command: [Symbol])->Bool{
+                
         if command[0].type == "operator" || command[command.endIndex-1].type == "operator" {
             
             return false
@@ -130,7 +132,7 @@ final class Calculator : ObservableObject
             
             if command[i].type == "operator" {
     
-                if command[i-1].type == "operator" || command[i+1].type == "operator"
+                if command[i-1].type != "value" || command[i+1].type != "value"
                 {
                     return false
                 }
@@ -199,17 +201,17 @@ final class Calculator : ObservableObject
         
         for i in command.startIndex...command.endIndex-1 {
             
-            if command[i].type == "value"{
+            if command[i].type == "value" || command[i].type == "decimal"{
                 
                 if !(i+1 > command.endIndex-1){
-                    if command[i+1].type == "value"{
+                    if command[i+1].type == "value" || command[i+1].type == "decimal"{
                         let start = i
                         var values: [Symbol] = []
                         var end = -1
                         values.append(command[i])
                         for j in i+1...command.endIndex-1{
                             
-                            if command[j].type == "value"{
+                            if command[j].type == "value" || command[j].type == "decimal"{
                                 values.append(command[j])
                             }else{
                                 end = j-1
