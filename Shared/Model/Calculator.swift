@@ -402,7 +402,7 @@ final class Calculator : ObservableObject
                 
                 nCommand.replaceSubrange(startIndex...endIndex, with: [simplified])
                 
-                return nCommand
+                return [evaluateCommand(command: nCommand)]
                 
             }
     
