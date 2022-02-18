@@ -130,7 +130,7 @@ final class Calculator : ObservableObject
             
             if command[i].type == "operator" {
     
-                if command[i-1].type == "operator" && command[i+1].type == "operator"
+                if command[i-1].type == "operator" || command[i+1].type == "operator"
                 {
                     return false
                 }
