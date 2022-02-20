@@ -26,6 +26,8 @@ final class Calculator : ObservableObject
     
     @Published var textCommand: String = ""
     
+    
+    
     public func addCommandSymbol(symbol:Symbol){
                
         
@@ -303,6 +305,10 @@ final class Calculator : ObservableObject
         for i in 0..<nCommand.endIndex{
             
             if nCommand[i].display == "^"{
+                
+                if i <= 0 || i >= nCommand.endIndex-1{
+                    throw ExponentError.general
+                }
                 
                 if nCommand[i-1].value == nil || nCommand[i+1].value == nil{
                     throw ExponentError.general
