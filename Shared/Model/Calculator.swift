@@ -121,7 +121,7 @@ final class Calculator : ObservableObject
             {
                 if !(index-1 < 0) {
                     
-                    if nCommand[index-1].display == "-"{
+                    if nCommand[index-1].display == "-" && nCommand[index].type == "value"{
                         
                         if nCommand[index].display == "."{
                             throw CombineValueSymERROR.invalidoperatoruse
