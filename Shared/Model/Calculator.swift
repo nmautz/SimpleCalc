@@ -17,7 +17,13 @@ struct Symbol{
     
 }
 
+enum CombineValueSymERROR : Error {
+    case invalidoperatoruse
+}
 
+enum CombineError: Error {
+    case general
+}
 
 
 final class Calculator : ObservableObject
@@ -44,32 +50,7 @@ final class Calculator : ObservableObject
                 }
                 
             }
-            if(symbol.display == "+/-"){
-                    
-                if !rawCommand.isEmpty{
 
-                    do {
-                        try rawCommand = combineValueSymbols(command: rawCommand)
-                    }catch{
-                        
-                    }
-                    
-                    if(rawCommand[rawCommand.endIndex-1].type == "value" && rawCommand[rawCommand.endIndex-1].display != "."){
-                        
-                        
-                        if rawCommand[rawCommand.endIndex-1].display.contains("-"){
-                            
-                            rawCommand[rawCommand.endIndex-1].display.removeFirst()
-                            
-                        }else{
-                            rawCommand[rawCommand.endIndex-1].display = "-" + rawCommand[rawCommand.endIndex-1].display
-                        }
-                        
-                        rawCommand[rawCommand.endIndex-1].value! *= -1
-                    }
-                }
-                
-            }
         }else {
             rawCommand.append(symbol)
         }
@@ -104,10 +85,14 @@ final class Calculator : ObservableObject
         
         var nCommand = command
         do {
-            try nCommand = combineValueSymbols(command: nCommand)
             try nCommand = evaluateParentheses(command: nCommand)
+            try nCommand = combineValueSymbols(command: nCommand)
             try nCommand = evaluateExponets(command: nCommand)
             try nCommand = evaluateBasicOps(command: nCommand)
+        }catch CombineValueSymERROR.invalidoperatoruse {
+            return Symbol(display: "Operator Error", type: "ERROR")
+        }catch CombineError.general {
+            return Symbol(display: "Combine Error", type: "ERROR")
         }catch{
             return Symbol(display: "ERROR", type: "ERROR")
         }
@@ -123,21 +108,61 @@ final class Calculator : ObservableObject
 
     private func combineValueSymbols(command: [Symbol]) throws -> [Symbol]{
         
+
+        
+        var nCommand = command
+        
         do{
-            for i in command.startIndex...command.endIndex-1 {
-                
-                if command[i].type == "value" || command[i].type == "decimal"{
+            
+            var endIndex = nCommand.endIndex
+            var index = 0
+            
+            while index < endIndex
+            {
+                if !(index-1 < 0) {
                     
-                    if !(i+1 > command.endIndex-1){
-                        if command[i+1].type == "value" || command[i+1].type == "decimal"{
+                    if nCommand[index-1].display == "-"{
+                        
+                        if nCommand[index].display == "."{
+                            throw CombineValueSymERROR.invalidoperatoruse
+                        }else{
+                            if index-1 == 0 || (index-2 != 0 && nCommand[index-2].type != "value"){
+                                nCommand[index].value! *= -1
+                                nCommand[index].display = String(nCommand[index].value!)
+                                nCommand.remove(at: index-1)
+                                index = index-1
+                                endIndex = nCommand.endIndex
+                                
+                            }
+                        }
+                    }
+                }
+                
+                index+=1
+                
+            }
+            
+            
+            
+            
+            for i in nCommand.startIndex...nCommand.endIndex-1 {
+                
+                if nCommand[i].type == "value" || nCommand[i].type == "decimal"{
+                    
+                    
+ 
+                    
+                    
+                    if !(i+1 > nCommand.endIndex-1){
+                        if nCommand[i+1].type == "value" || nCommand[i+1].type == "decimal"{
                             let start = i
                             var values: [Symbol] = []
                             var end = -1
-                            values.append(command[i])
-                            for j in i+1...command.endIndex-1{
+                            values.append(nCommand[i])
+                            for j in i+1...nCommand.endIndex-1{
                                 
-                                if command[j].type == "value" || command[j].type == "decimal"{
-                                    values.append(command[j])
+                                if nCommand[j].type == "value" || nCommand[j].type == "decimal"{
+                                    values.append(nCommand[j])
                                 }else{
                                     end = j-1
                                     break
@@ -147,12 +172,12 @@ final class Calculator : ObservableObject
                                 
                             }
                             if end == -1{
-                                end = command.endIndex-1
+                                end = nCommand.endIndex-1
                             }
                             
                             let result = try doCombine(command: values)
                             
-                            var nCommand = command
+                            
                             nCommand.replaceSubrange(start...end, with: [result])
                             
                             return try combineValueSymbols(command: nCommand)
@@ -173,13 +198,11 @@ final class Calculator : ObservableObject
 
         
         
-        return command
+        return nCommand
     }
     private func doCombine(command: [Symbol])throws  -> Symbol{
         
-        enum CombineError: Error {
-            case general
-        }
+
         
         var values = command
         
