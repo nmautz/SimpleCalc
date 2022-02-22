@@ -27,7 +27,7 @@ struct CalculatorButtons: View {
             }
             HStack{
                 //Exponent Placeholder
-                CalculatorButton(symbol: Symbol(display: "+/-", type: "action"))
+                CalculatorButton(symbol: Symbol(display: "REPLACEME", type: "REPLACEME"))
                     .environmentObject(calc)
 
                 CalculatorButton(symbol: Symbol(display: "(", type: "parentheses"))
