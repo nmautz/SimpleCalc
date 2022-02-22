@@ -85,8 +85,8 @@ final class Calculator : ObservableObject
         
         var nCommand = command
         do {
-            try nCommand = combineValueSymbols(command: nCommand)
             try nCommand = evaluateParentheses(command: nCommand)
+            try nCommand = combineValueSymbols(command: nCommand)
             try nCommand = evaluateExponets(command: nCommand)
             try nCommand = evaluateBasicOps(command: nCommand)
         }catch CombineValueSymERROR.invalidoperatoruse {
