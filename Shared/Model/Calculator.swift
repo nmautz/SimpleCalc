@@ -24,6 +24,10 @@ enum CombineValueSymERROR : Error {
 enum CombineError: Error {
     case general
 }
+enum ParenthesisError: Error {
+    case general
+}
+
 
 
 final class Calculator : ObservableObject
@@ -85,6 +89,7 @@ final class Calculator : ObservableObject
         
         var nCommand = command
         do {
+            try nCommand = applyMacros(command: nCommand)
             try nCommand = evaluateParentheses(command: nCommand)
             try nCommand = combineValueSymbols(command: nCommand)
             try nCommand = evaluateExponets(command: nCommand)
@@ -102,6 +107,35 @@ final class Calculator : ObservableObject
         
 
         
+    }
+    
+    private func applyMacros(command: [Symbol]) throws -> [Symbol]{
+        
+        var nCommand = command
+        
+        for i in nCommand.startIndex..<nCommand.endIndex
+        {
+            if i != 0{
+                
+                if nCommand[i].display == "(" && nCommand[i-1].type == "value"
+                {
+                    
+                    nCommand.insert(Symbol(display: "*", type: "operator"), at: i)
+                    
+                    
+                    
+                }
+                
+                
+            }
+            
+            
+            
+        }
+        
+        
+        
+        return nCommand
     }
     
     
@@ -399,11 +433,22 @@ final class Calculator : ObservableObject
         
         
         
-        enum ParenthesisError: Error {
-            case general
-        }
+
         
         var nCommand = command
+        
+        for i in nCommand.startIndex..<nCommand.endIndex {
+            if !(i >= nCommand.endIndex-1) {
+                
+                if nCommand[i].display == ")" {
+                    if nCommand[i+1].type == "value"{
+                        throw ParenthesisError.general
+                    }
+                }
+                
+                
+            }
+        }
         
         
         for i in nCommand.startIndex...nCommand.endIndex-1 {
@@ -424,7 +469,6 @@ final class Calculator : ObservableObject
                 return [evaluateCommand(command: nCommand)]
                 
             }
-    
             
         }
         
