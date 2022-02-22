@@ -429,7 +429,7 @@ final class Calculator : ObservableObject
         }
         
 
-        return try command
+        return command
         
         
     }
