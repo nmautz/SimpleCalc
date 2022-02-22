@@ -27,8 +27,15 @@ enum CombineError: Error {
 enum ParenthesisError: Error {
     case general
 }
-
-
+enum BasicOperatorError: Error {
+    case general
+}
+enum ExponentError: Error {
+    case general
+}
+enum HelperError:Error{
+    case general
+}
 
 final class Calculator : ObservableObject
 {    
@@ -95,9 +102,15 @@ final class Calculator : ObservableObject
             try nCommand = evaluateExponets(command: nCommand)
             try nCommand = evaluateBasicOps(command: nCommand)
         }catch CombineValueSymERROR.invalidoperatoruse {
-            return Symbol(display: "Operator Error", type: "ERROR")
+            return Symbol(display: "Invalid Operator Use Error", type: "ERROR")
         }catch CombineError.general {
             return Symbol(display: "Combine Error", type: "ERROR")
+        }catch ParenthesisError.general {
+            return Symbol(display: "Parenthesis Error", type: "ERROR")
+        }catch BasicOperatorError.general {
+            return Symbol(display: "Operator Error", type: "ERROR")
+        }catch ExponentError.general {
+            return Symbol(display: "Exponent Error", type: "ERROR")
         }catch{
             return Symbol(display: "ERROR", type: "ERROR")
         }
@@ -283,9 +296,7 @@ final class Calculator : ObservableObject
     
     private func evaluateBasicOps(command: [Symbol])throws -> [Symbol]
     {
-        enum BasicOperatorError: Error {
-            case general
-        }
+
         
         
         if command.count <= 1 {
@@ -352,9 +363,7 @@ final class Calculator : ObservableObject
     
     private func evaluateExponets(command: [Symbol])throws ->[Symbol]{
         
-        enum ExponentError: Error {
-            case general
-        }
+
         
         
         var nCommand = command
@@ -395,9 +404,7 @@ final class Calculator : ObservableObject
     
     private func getParEndIndex(command: [Symbol], startIndex: Int)throws -> Int
     {
-        enum HelperError:Error{
-            case general
-        }
+
         
         var pCount = 1
         
