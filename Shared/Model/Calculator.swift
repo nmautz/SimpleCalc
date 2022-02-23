@@ -75,6 +75,8 @@ final class Calculator : ObservableObject
         
         for symbol in rawCommand{
             
+      
+            
             str = str + symbol.display
         
         }
@@ -179,7 +181,7 @@ final class Calculator : ObservableObject
                         }else{
                             if index-1 == 0 || (index-2 != 0 && nCommand[index-2].type != "value"){
                                 nCommand[index].value! *= -1
-                                nCommand[index].display = String(nCommand[index].value!)
+                                nCommand[index].display = String(format: "%g",nCommand[index].value!)
                                 nCommand.remove(at: index-1)
                                 index = index-1
                                 endIndex = nCommand.endIndex
@@ -294,7 +296,7 @@ final class Calculator : ObservableObject
             total *= -1
         }
         
-        return Symbol(display: String(total), type: "value", value: total)
+        return Symbol(display: String(format: "%g",total), type: "value", value: total)
     }
        
     
@@ -354,7 +356,7 @@ final class Calculator : ObservableObject
         }
         
         
-        let resultSymbol:Symbol = Symbol(display: String(result), type: "value", value: result)
+        let resultSymbol:Symbol = Symbol(display: String(format: "%g",result), type: "value", value: result)
         
         var nCommand = command
         
