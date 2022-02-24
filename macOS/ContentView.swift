@@ -8,8 +8,24 @@
 import SwiftUI
 
 struct ContentView: View {
+    
+    @EnvironmentObject private var calc:Calculator
+    
     var body: some View {
-        Text(/*@START_MENU_TOKEN@*/"Hello, World!"/*@END_MENU_TOKEN@*/)
+        VStack{
+            CalculatorDisplay()
+                .environmentObject(calc)
+                .scaledToFit()
+                .padding(.all, 20)
+            Divider().frame(height:20)
+            CalculatorButtons()
+                .environmentObject(calc)
+                .scaledToFit()
+
+        }
+        .scaledToFit()
+    
+        
     }
 }
 

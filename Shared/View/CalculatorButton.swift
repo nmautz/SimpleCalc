@@ -24,13 +24,23 @@ struct CalculatorButton: View {
             calc.addCommandSymbol(symbol: symbol)
         }label: {
                        
+
+            #if os(macOS)
             Text(symbol.display)
                 .font(.title)
                 .foregroundColor(/*@START_MENU_TOKEN@*/.blue/*@END_MENU_TOKEN@*/)
                 .scaledToFill()
-                .frame(minWidth: 30, idealWidth: widthMult*100, maxWidth: widthMult*200, minHeight: 30, idealHeight: heightMult*100, maxHeight: heightMult*200)
+                .frame(width: 50*widthMult, height: 100*heightMult, alignment: .center)
+            #endif
+            #if os(iOS)
+            Text(symbol.display)
+                .font(.title)
+                .foregroundColor(/*@START_MENU_TOKEN@*/.blue/*@END_MENU_TOKEN@*/)
+                .scaledToFit()
                 .background(Color(hue: 1.0, saturation: 0.021, brightness: 0.894))
                 .cornerRadius(35)
+                .frame(minWidth: 0, idealWidth: widthMult*100, maxWidth: widthMult*200, minHeight: 0, idealHeight: heightMult*100, maxHeight: heightMult*200)
+            #endif
                 
         }
         

@@ -14,17 +14,17 @@ struct CalculatorButtons: View {
     
     var body: some View {
         
-        VStack{
+        VStack(spacing: 1){
             
             
-            HStack{
+            HStack(spacing: 1){
 
 
-                CalculatorButton(symbol: Symbol(display: "CLR", type: "action"), widthMult: 2)
+                CalculatorButton(symbol: Symbol(display: "CLR", type: "action"), widthMult: 4)
                     .environmentObject(calc)
 
             }
-            HStack{
+            HStack(spacing: 1){
                 //Exponent Placeholder
                 CalculatorButton(symbol: Symbol(display: "^", type: "operator"))
                     .environmentObject(calc)
@@ -38,7 +38,7 @@ struct CalculatorButtons: View {
 
             }
             
-            HStack{
+            HStack(spacing: 1){
                 CalculatorButton(symbol: Symbol(display: "1", type: "value", value: 1))
                     .environmentObject(calc)
                 CalculatorButton(symbol: Symbol(display: "2", type: "value", value: 2))
@@ -49,7 +49,7 @@ struct CalculatorButtons: View {
                     .environmentObject(calc)
 
             }
-            HStack{
+            HStack(spacing: 1){
                 CalculatorButton(symbol: Symbol(display: "4", type: "value", value: 4))
                     .environmentObject(calc)
                 CalculatorButton(symbol: Symbol(display: "5", type: "value", value: 5))
@@ -60,7 +60,7 @@ struct CalculatorButtons: View {
                     .environmentObject(calc)
 
             }
-            HStack{
+            HStack(spacing: 1){
                 CalculatorButton(symbol: Symbol(display: "7", type: "value", value: 7))
                     .environmentObject(calc)
                 CalculatorButton(symbol: Symbol(display: "8", type: "value", value: 8))
@@ -73,7 +73,7 @@ struct CalculatorButtons: View {
 
             }
 
-            HStack{
+            HStack(spacing: 1){
                 CalculatorButton(symbol: Symbol(display: "0", type: "value", value: 0))
                     .environmentObject(calc)
                 
